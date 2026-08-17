@@ -25,13 +25,22 @@ const mapEmbedUrl =
 const headerEl = ref<HTMLElement | null>(null)
 const headerHeight = ref(90)
 const headerHidden = ref(false)
+const mobileMenuOpen = ref(false)
 let lastScrollY = 0
 
 function updateHeaderHeight() {
   headerHeight.value = headerEl.value?.offsetHeight ?? headerHeight.value
 }
 
+function handleResize() {
+  updateHeaderHeight()
+  if (window.innerWidth > 900) {
+    mobileMenuOpen.value = false
+  }
+}
+
 function handleScroll() {
+  if (mobileMenuOpen.value) return
   const currentY = window.scrollY
   const scrollingDown = currentY > lastScrollY
   const pastHeader = currentY > headerHeight.value
@@ -43,14 +52,18 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+function closeMobileMenu() {
+  mobileMenuOpen.value = false
+}
+
 onMounted(() => {
   updateHeaderHeight()
-  window.addEventListener('resize', updateHeaderHeight)
+  window.addEventListener('resize', handleResize)
   window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', updateHeaderHeight)
+  window.removeEventListener('resize', handleResize)
   window.removeEventListener('scroll', handleScroll)
 })
 </script>
@@ -69,7 +82,30 @@ onUnmounted(() => {
         <a href="#family" class="nav-link nav-section-link">Family</a>
         <a href="tel:2627851499" class="nav-link nav-phone">(262) 785-1499</a>
         <a href="tel:2627851499" class="nav-cta">Call to Schedule</a>
+        <button
+          type="button"
+          class="nav-toggle"
+          aria-label="Toggle menu"
+          :aria-expanded="mobileMenuOpen"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+        >
+          <svg v-if="!mobileMenuOpen" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+          <svg v-else viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="5" y1="5" x2="19" y2="19" />
+            <line x1="19" y1="5" x2="5" y2="19" />
+          </svg>
+        </button>
       </nav>
+      <div v-if="mobileMenuOpen" class="mobile-menu">
+        <a href="#services" class="mobile-menu-link" @click="closeMobileMenu">Services</a>
+        <a href="#approach" class="mobile-menu-link" @click="closeMobileMenu">Approach</a>
+        <a href="#family" class="mobile-menu-link" @click="closeMobileMenu">Family</a>
+        <a href="tel:2627851499" class="mobile-menu-link" @click="closeMobileMenu">(262) 785-1499</a>
+      </div>
     </header>
     <div class="header-spacer" :style="{ height: `${headerHeight}px` }" />
 
@@ -333,16 +369,51 @@ a:hover {
   background: #16323A;
 }
 
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  background: none;
+  border: none;
+  color: #16323A;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border-bottom: 1px solid #DCE9EC;
+  padding: 4px 24px 12px;
+  box-shadow: 0 16px 24px rgba(22, 50, 58, 0.08);
+}
+
+.mobile-menu-link {
+  padding: 14px 0;
+  font-size: 16px;
+  color: #16323A;
+  border-top: 1px solid #EAF4F6;
+}
+
+.mobile-menu-link:first-child {
+  border-top: none;
+}
+
 /* HERO */
 .hero {
   display: grid;
-  grid-template-columns: 1fr 0.9fr;
+  grid-template-columns: 0.85fr 1.15fr;
   align-items: stretch;
   min-height: 640px;
 }
 
 .hero-copy {
-  padding: 90px 40px 90px 56px;
+  padding: 90px 40px 90px 88px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -652,8 +723,13 @@ a:hover {
 }
 
 @media (max-width: 900px) {
-  .nav-section-link {
+  .nav-section-link,
+  .nav-phone {
     display: none;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
   }
 
   .hero {
@@ -721,9 +797,68 @@ a:hover {
   }
 }
 
-@media (max-width: 480px) {
-  .nav-phone {
-    display: none;
+@media (max-width: 400px) {
+  .header {
+    padding-left: 16px;
+    padding-right: 16px;
+    gap: 8px;
+  }
+
+  .logo-name {
+    font-size: 19px;
+  }
+
+  .nav {
+    gap: 8px;
+  }
+
+  .nav-cta {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  .nav-toggle {
+    padding: 4px;
+  }
+
+  .hero-copy,
+  .services,
+  .approach,
+  .family,
+  .contact,
+  .footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-badge {
+    padding: 16px 20px;
+    max-width: 190px;
+  }
+
+  .hero-badge-num {
+    font-size: 28px;
+  }
+
+  .service-row {
+    gap: 16px;
+    padding: 24px 0;
+  }
+
+  .family-thumb {
+    height: 88px;
+  }
+
+  .family-img {
+    height: 260px;
+  }
+
+  .contact-card {
+    padding: 28px 20px;
   }
 }
 </style>
