@@ -1,12 +1,6 @@
-@import "tailwindcss";
-@plugin "daisyui" {
-  themes:
-    light --default,
-    dark --prefersdark;
-}
-
 body {
-  @apply bg-base-100 text-base-content;
+  background: #FFFFFF;
+  color: #16323A;
 }
 
 html {

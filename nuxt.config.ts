@@ -2,14 +2,22 @@ import { defineNuxtConfig } from "nuxt/config";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', 'vuetify-nuxt-module'],
+  modules: ['@nuxt/eslint'],
   runtimeConfig: {
     gmailUser: process.env.GMAIL_USER,
     gmailAppPassword: process.env.GMAIL_APP_PASSWORD,
   },
   app: {
     head: {
+      title: 'Binninger Family Dentistry | Brookfield, WI',
+      meta: [
+        {
+          name: 'description',
+          content: 'Gentle, family dentistry in Brookfield, Wisconsin. Same-day emergency care, most major PPO insurance accepted, and 50+ years serving Milwaukee-area families.',
+        },
+      ],
       link: [
+        { rel: 'icon', type: 'image/png', href: '/favicon.png' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
         {
@@ -20,23 +28,4 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/css/main.css'],
-  vuetify: {
-    vuetifyOptions: {
-      theme: {
-        defaultTheme: 'dental',
-        themes: {
-          dental: {
-            dark: false,
-            colors: {
-              primary: '#1B6E82',    
-              secondary: '#EAF4F6',
-              accent: '#2E9BB5',
-              surface: '#FFFFFF',
-              'on-primary': '#FFFFFF'
-            }
-          }
-        }
-      }
-    }
-  }
 });

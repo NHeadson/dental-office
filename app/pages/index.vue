@@ -203,6 +203,7 @@ onUnmounted(() => {
           <a href="tel:2627851499" class="btn btn-dark contact-phone">(262) 785-1499</a>
           <iframe
             :src="mapEmbedUrl"
+            title="Map to Binninger Family Dentistry, 12720 W North Ave, Bldg. B, Brookfield, WI"
             width="100%"
             height="260"
             class="contact-map"
@@ -246,7 +247,7 @@ a:hover {
   font-size: 12px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #2E9BB5;
+  color: #1B6E82;
 }
 
 .section-title {
