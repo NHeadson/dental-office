@@ -8,6 +8,19 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, statusMessage: 'Missing required fields' })
     }
 
+    if (name.length > 100) {
+        throw createError({ statusCode: 400, statusMessage: 'Name is too long (100 character max)' })
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email) || email.length > 254) {
+        throw createError({ statusCode: 400, statusMessage: 'Please provide a valid email address' })
+    }
+
+    if (message.length > 750) {
+        throw createError({ statusCode: 400, statusMessage: 'Message is too long (750 character max)' })
+    }
+
     const config = useRuntimeConfig()
 
     const transporter = nodemailer.createTransport({

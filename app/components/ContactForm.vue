@@ -20,10 +20,30 @@ async function submitForm() {
 
 <template>
   <v-form @submit.prevent="submitForm">
-    <v-text-field v-model="form.name" label="Name" required class="mb-2" />
-    <v-text-field v-model="form.email" label="Email" type="email" required class="mb-2" />
+    <v-text-field
+      v-model="form.name"
+      label="Name"
+      required
+      maxlength="100"
+      class="mb-2"
+    />
+    <v-text-field
+      v-model="form.email"
+      label="Email"
+      type="email"
+      required
+      maxlength="254"
+      class="mb-2"
+    />
     <v-text-field v-model="form.phone" label="Phone (optional)" class="mb-2" />
-    <v-textarea v-model="form.message" label="Message" required class="mb-2" />
+    <v-textarea
+      v-model="form.message"
+      label="Message"
+      required
+      counter="750"
+      maxlength="750"
+      class="mb-2"
+    />
     <v-btn type="submit" color="primary" :loading="loading">Send Message</v-btn>
 
     <v-alert v-if="status === 'success'" type="success" class="mt-4">
