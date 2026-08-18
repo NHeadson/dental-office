@@ -2,7 +2,7 @@ import { defineNuxtConfig } from "nuxt/config";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint'],
+  modules: ['@nuxt/eslint', '@vercel/speed-insights/nuxt'],
   runtimeConfig: {
     gmailUser: process.env.GMAIL_USER,
     gmailAppPassword: process.env.GMAIL_APP_PASSWORD,
